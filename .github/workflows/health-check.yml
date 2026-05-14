@@ -1,0 +1,24 @@
+name: Health Check
+
+# 每 5 分钟跑一次（GitHub Actions cron 实际可能延迟 0-15 分钟，公开仓库优先级更高）
+# 手动触发：仓库 Actions 标签页 → Health Check → Run workflow
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Run health probe
+        run: node scripts/check.js
+        env:
+          FEISHU_WEBHOOK_URL: ${{ secrets.FEISHU_WEBHOOK_URL }}
+          FEISHU_WEBHOOK_SECRET: ${{ secrets.FEISHU_WEBHOOK_SECRET }}
+          PROD_DOMAIN: ${{ secrets.PROD_DOMAIN }}

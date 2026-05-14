@@ -1,0 +1,12 @@
+{
+  "name": "huolongguo-monitor",
+  "version": "1.0.0",
+  "description": "Production uptime monitoring via GitHub Actions",
+  "private": true,
+  "scripts": {
+    "check": "node scripts/check.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
